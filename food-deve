@@ -1,0 +1,50 @@
+customers={}
+
+def add_customer(name, food_item,qnt,price):
+    if name in customers:
+        customers[name].append((food_item,qnt,price))
+    else:
+        customers[name] = [(food_item,qnt,price)]
+
+def calculate_bill (name):
+    if name in customers:
+        total = sum(qnt * price for food_item, qnt, price in customers[name])
+        delivery_charges = 0
+        discount = 0
+        if total < 500:
+            delivery_charges =  40
+        if total >= 500 and total < 1000:
+            discount = total * 0.10
+        if total >= 1000:
+            discount = total * 0.25
+
+        print(f"Customer Name: {name}")
+        print("Food Items Ordered:")
+        for food_item, qnt, price in customers[name]:
+            print(f"{food_item} - Quantity: {qnt}, Price: {price}") 
+        print(f"Total Amount: {total}")
+        print(f"Delivery Charges: {delivery_charges}")
+        print(f"Discount: {discount}")
+        print(f"Final Bill Amount: {total + delivery_charges - discount}")
+          
+def App():
+    while True:
+        print("1. Add Customer")
+        print("2. Calculate Bill")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            name = input("Enter customer name: ")
+            food_item = input("Enter food item: ")
+            qnt = int(input("Enter quantity: "))
+            price = float(input("Enter price: "))
+            add_customer(name, food_item, qnt, price)
+        elif choice == '2':
+            name = input("Enter customer name to calculate bill: ")
+            calculate_bill(name)
+        elif choice == '3':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+App()        
